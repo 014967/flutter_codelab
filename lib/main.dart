@@ -30,11 +30,19 @@ class MyApp extends StatelessWidget {
 
 class MyAppState extends ChangeNotifier { // 변경사항에 관헤 다른 항목에 알릴 수 있다.
   var current = WordPair.random();
+
+  void getNext(){
+    current = WordPair.random();
+    notifyListeners();
+  }
 }
 
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    /*
+    watch 메서드를 사용하여 앱의 현재 상태에 관한 변경사항을 추적.
+     */
     var appState = context.watch<MyAppState>();
 
     return Scaffold(
@@ -45,6 +53,7 @@ class MyHomePage extends StatelessWidget {
 
           ElevatedButton(
             onPressed: (){
+              appState.getNext();
               print('button pressed!');
             },
             child: Text('Next'),
@@ -54,3 +63,10 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
+
+/*
+모든 build 메서드는 위젯 또는 중첩된 위젯 트리를 반환해야합니다.
+최상위 위젯은 Scaffold입니다.
+
+
+ */
